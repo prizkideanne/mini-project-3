@@ -1,6 +1,5 @@
 import axios from "axios";
-import logo from "./logo.svg";
-import "./App.css";
+
 import { useEffect, useState } from "react";
 
 function App() {
@@ -15,11 +14,12 @@ function App() {
     })();
   }, []);
   return (
-    <div className="App">
-      <header className="App-header">
+    <div>
+      {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         {message}
-      </header>
+      </header> */}
+      <h1 className="text-3xl font-bold underline">{message}</h1>
     </div>
   );
 }
