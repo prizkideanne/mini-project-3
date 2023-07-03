@@ -4,17 +4,19 @@ const cors = require("cors");
 const { join } = require("path");
 
 const PORT = process.env.PORT || 8000;
+const routes = require("./routes");
 const app = express();
-app.use(
-  cors()
-);
+app.use(cors());
 
 app.use(express.json());
+
+app.use("/static", express.static("Public"));
 
 //#region API ROUTES
 
 // ===========================
 // NOTE : Add your routes here
+app.use("/product", routes.product);
 
 app.get("/api", (req, res) => {
   res.send(`Hello, this is my API`);
