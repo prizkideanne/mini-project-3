@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "userId",
       });
       User.hasOne(models.Cart, { foreignKey: "userId" });
-      User.hasMany(models.Order_Detail, {foreignKey: "userId"})
+      User.hasMany(models.Order_Detail, { foreignKey: "userId" });
     }
   }
   User.init(
@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       username: DataTypes.STRING,
       email: DataTypes.STRING,
       phoneNumber: DataTypes.STRING,
+      storeName: DataTypes.STRING,
       password: DataTypes.STRING,
     },
     {

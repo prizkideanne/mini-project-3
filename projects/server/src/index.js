@@ -2,29 +2,33 @@ require("dotenv/config");
 const express = require("express");
 const cors = require("cors");
 const { join } = require("path");
+const routes = require("./routes");
 
 const PORT = process.env.PORT || 8000;
 const app = express();
-app.use(
-  cors()
-);
+app.use(cors());
 
 app.use(express.json());
+
+app.use("/static", express.static("Public"));
 
 //#region API ROUTES
 
 // ===========================
 // NOTE : Add your routes here
+app.use("/product", routes.product);
 
-app.get("/api", (req, res) => {
-  res.send(`Hello, this is my API`);
-});
+app.use("/api/auth", routes.auth);
 
-app.get("/api/greetings", (req, res, next) => {
-  res.status(200).json({
-    message: "Hello, Student !",
-  });
-});
+// app.get("/api", (req, res) => {
+//   res.send(`Hello, this is my API`);
+// });
+
+// app.get("/api/greetings", (req, res, next) => {
+//   res.status(200).json({
+//     message: "Hello, Student !",
+//   });
+// });
 
 // ===========================
 
