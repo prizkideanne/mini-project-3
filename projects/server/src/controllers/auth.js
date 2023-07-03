@@ -64,4 +64,30 @@ module.exports = {
         .send({ message: "something wrong in the server", errors: error });
     }
   },
+
+  async login(req, res) {
+    const { username, password } = req.body;
+    try {
+      const user = await User.findOne({ where: {username} });
+      const isValid = await bcrypt.compare(password, user.password);
+      if (user && isValid) {
+        const token = jwt.sign({id: user.id}, secretKey, {expiresIn: "1hr"})
+        res.send({
+          message: "login success",
+          data: user,
+          accessToken: token,
+        });
+        return;
+      } else {
+        res.status(400).send({
+          message: "login failed, incorect username or password",
+        });
+      }
+    } catch (error) {
+      res.status(500).send({
+        message: "error on server",
+        error,
+      });
+    }
+  }
 };
