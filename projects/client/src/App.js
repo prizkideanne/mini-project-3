@@ -1,28 +1,38 @@
-import axios from "axios";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import { useEffect, useState } from "react";
-import { createProduct } from "../../server/src/controllers/product";
+import Cart from "./pages/Cart";
+import Login from "./pages/Login";
+import LandingPage from "./pages/LandingPage";
+import ProductDetails from "./pages/ProductDetails";
+import Register from "./pages/Register";
+import CategoryForm from "./pages/CategoryForm";
+import GrossIncome from "./pages/GrossIncome";
+import MyDashboard from "./pages/MyDashboard";
+import MyStore from "./pages/MyStore";
+import MyTransaction from "./pages/MyTransaction";
+import ProductForm from "./pages/ProductForm";
 
 function App() {
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    (async () => {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_API_BASE_URL}/greetings`
-      );
-      setMessage(data?.message || "");
-    })();
-  }, []);
   return (
-    <div>
-      <createProduct />
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        {message}
-      </header> */}
-      <h1 className="text-3xl font-bold underline">{message}</h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
+        {/* Auth */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/my-dashboard" element={<MyDashboard />} />
+        <Route path="/my-dashboard/my-store" element={<MyStore />} />
+        <Route
+          path="/my-dashboard/my-transaction"
+          element={<MyTransaction />}
+        />
+        <Route path="/my-dashboard/gross-income" element={<GrossIncome />} />
+        <Route path="/my-dashboard/category-form" element={<CategoryForm />} />
+        <Route path="/my-dashboard/product-form" element={<ProductForm />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
