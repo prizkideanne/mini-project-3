@@ -33,7 +33,7 @@ const getAllProduct = async (req, res) => {
   // const userId = req.user.id;
   const pagination = {
     page: Number(req.query.page) || 1,
-    perPage: Number(req.query.perPage) || 15,
+    perPage: Number(req.query.perPage) || 9,
     search: req.query.search || undefined,
   };
   try {
