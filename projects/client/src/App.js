@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import { useEffect, useState } from "react";
+import { createProduct } from "../../server/src/controllers/product";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -15,6 +16,7 @@ function App() {
   }, []);
   return (
     <div>
+      <createProduct />
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         {message}
