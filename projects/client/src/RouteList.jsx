@@ -18,6 +18,7 @@ import MyTransaction from "./pages/MyTransaction";
 import ProductForm from "./pages/ProductForm";
 import { useDispatch } from "react-redux";
 import { getUser } from "./store/userReducer/userSlice";
+import DashboardLayout from "./components/DashboardLayout";
 
 function RouteList() {
   const token = localStorage.getItem("token");
@@ -45,15 +46,54 @@ function RouteList() {
         </Route>
         <Route path="/product/:id" element={<ProductDetails />} />
 
-        <Route path="/my-dashboard" element={<MyDashboard />} />
-        <Route path="/my-dashboard/my-store" element={<MyStore />} />
+        <Route
+          path="/my-dashboard"
+          element={
+            <DashboardLayout>
+              <MyDashboard />
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/my-dashboard/my-store"
+          element={
+            <DashboardLayout>
+              <MyStore />
+            </DashboardLayout>
+          }
+        />
         <Route
           path="/my-dashboard/my-transaction"
-          element={<MyTransaction />}
+          element={
+            <DashboardLayout>
+              <MyTransaction />
+            </DashboardLayout>
+          }
         />
-        <Route path="/my-dashboard/gross-income" element={<GrossIncome />} />
-        <Route path="/my-dashboard/category-form" element={<CategoryForm />} />
-        <Route path="/my-dashboard/product-form" element={<ProductForm />} />
+        <Route
+          path="/my-dashboard/gross-income"
+          element={
+            <DashboardLayout>
+              <GrossIncome />
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/my-dashboard/category-form"
+          element={
+            <DashboardLayout>
+              <CategoryForm />
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/my-dashboard/product-form"
+          element={
+            <DashboardLayout>
+              <ProductForm />
+            </DashboardLayout>
+          }
+        />
         {/* Auth */}
         <Route element={<PublicWrapper />}>
           <Route path="/login" element={<Login />} />

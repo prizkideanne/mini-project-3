@@ -80,7 +80,7 @@ function Register() {
   };
 
   return (
-    <div className="mt-40 flex h-screen w-screen justify-center lg:mt-0 lg:items-center">
+    <div className="mt-40 flex h-screen w-full justify-center lg:mt-0 lg:items-center">
       <div>
         <h1 className="text-center text-[80px]">Logo</h1>
         <h1>Register</h1>
