@@ -8,20 +8,21 @@ const {
 const createProduct = async (req, res) => {
   const { name, price, description, categoryId } = req.body;
 
-  const imageUrl = setFromFileNameToDBValue(req.file.filename);
+  const imageUrl = setFromFileNameToDBValue(req.file?.filename);
   try {
     const newProduct = await db.Product.create({
-      name,
-      price,
-      description,
-      categoryId,
-      imageUrl,
+      name: name,
+      price: price,
+      description: description,
+      categoryId: Number(categoryId),
+      imageUrl: imageUrl,
     });
     res.status(201).send({
       message: "success create Product",
       data: newProduct,
     });
   } catch (errors) {
+    console.log(errors);
     res.status(500).send({
       message: "fatal error on server",
       errors,
