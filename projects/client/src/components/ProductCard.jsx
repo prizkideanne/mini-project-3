@@ -1,18 +1,24 @@
 import React from "react";
 
-function ProductCard({ showStatus = false }) {
+function ProductCard({ showStatus = false, product }) {
+  const { title, price, category, image } = product;
   return (
-    <div className="border rounded-md w-40 border-black">
-      <div className='flex flex-col justify-main item-center h-screen w-screen'>
-        <div className=' mb-8 flex justify-center'>
-          <img className="w-screen h-80 box-border h-40 w-40 p-4 border-4 item" src="https://www.blibli.com/friends-backend/wp-content/uploads/2022/08/5-Ciri-Sepatu-Warrior-Asli-Kamu-Wajib-Tahu.jpeg" alt="" />
+    <div className="flex h-72 w-40 flex-col rounded-md border border-black bg-white lg:h-80 lg:w-52">
+      <img
+        src={image}
+        className="h-44 w-40 rounded-t-md border border-b-black object-cover lg:h-56 lg:w-52"
+        alt={title}
+      />
+      <div className="flex h-28 flex-col p-1 lg:h-24 lg:px-3">
+        <p className="text-sm font-bold capitalize">{category}</p>
+        <div className="flex h-full flex-col justify-between">
+          <p className="text-xs line-clamp-3">{title}</p>
+          <div>
+            <p className="text-right text-sm font-bold">USD {price}</p>
+          </div>
+          {/* <div className={`${showStatus ? "block" : "hidden"}`}>Active</div> */}
         </div>
-        <span className="text-2xl">Sepatu</span>
-        <span className="text-xl">Product Price</span>
-        <button type="submit" className="text-base text-slate-100	bg-indigo-500">Chart</button>
-
       </div>
-      <div className={`${showStatus ? "block" : "hidden"}`}>Active</div>
     </div>
   );
 }
