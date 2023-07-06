@@ -18,6 +18,7 @@ import MyTransaction from "./pages/MyTransaction";
 import ProductForm from "./pages/ProductForm";
 import { useDispatch } from "react-redux";
 import { getUser } from "./store/userReducer/userSlice";
+import ModifyProduct from "./pages/ModifyProduct";
 import DashboardLayout from "./components/DashboardLayout";
 
 function RouteList() {
@@ -93,6 +94,13 @@ function RouteList() {
               <ProductForm />
             </DashboardLayout>
           }
+        />
+        <Route path="/my-dashboard/gross-income" element={<GrossIncome />} />
+        <Route path="/my-dashboard/category-form" element={<CategoryForm />} />
+        <Route path="/my-dashboard/product-form" element={<ProductForm />} />
+        <Route
+          path="/my-dashboard/modifyProduct/:id"
+          element={<ModifyProduct />}
         />
         {/* Auth */}
         <Route element={<PublicWrapper />}>
