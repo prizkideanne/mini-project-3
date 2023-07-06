@@ -1,7 +1,6 @@
 import Logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 
-
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/userReducer/userSlice";
 import ProfileDropdown from "./ProfileDropdown";
@@ -23,7 +22,7 @@ function Header() {
         </Link>
       </div>
 
-      <div className="text-right">
+      <div className="z-20 text-right">
         {isLoggedIn ? (
           <div className="flex flex-row items-center">
             <ProfileDropdown

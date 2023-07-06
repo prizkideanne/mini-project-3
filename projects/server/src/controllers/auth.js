@@ -68,10 +68,12 @@ module.exports = {
   async login(req, res) {
     const { username, password } = req.body;
     try {
-      const user = await User.findOne({ where: {username} });
+      const user = await User.findOne({ where: { username } });
       const isValid = await bcrypt.compare(password, user.password);
       if (user && isValid) {
-        const token = jwt.sign({id: user.id}, secretKey, {expiresIn: "1hr"})
+        const token = jwt.sign({ id: user.id }, secretKey, {
+          expiresIn: "1hr",
+        });
         res.send({
           message: "login success",
           data: user,
@@ -89,5 +91,5 @@ module.exports = {
         error,
       });
     }
-  }
+  },
 };

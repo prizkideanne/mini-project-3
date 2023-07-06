@@ -3,7 +3,7 @@ module.exports = {
     return `/static/${filename}`;
   },
   getAbsolutePathPublicFile(filename) {
-    return `${__dirname}/../Public/${filename}`;
+    return `${__dirname}/../../public/${filename}`;
   },
   getFilenameFromDbValue(dbValue) {
     const split = dbValue.split("/");
