@@ -22,9 +22,13 @@ import { useNavigate } from "react-router-dom";
 function SideBar({ closeSideBar, isShow }) {
   const navigate = useNavigate();
   return (
-    <div className={`${isShow ? "left-0 lg:block" : "hidden lg:block"}`}>
+    <div
+      className={`${
+        isShow ? "left-0 lg:block" : "hidden lg:block"
+      } relative z-20`}
+    >
       <Card className="fixed bottom-0 left-0 right-0 top-0 w-screen bg-red-400 p-4 shadow-xl shadow-blue-gray-900/5 lg:fixed lg:right-auto lg:w-72">
-        <div className="mb-2 flex flex-row justify-between p-4">
+        <div className="mb-2 flex w-full flex-row justify-end p-4">
           <XMarkIcon onClick={closeSideBar} className="h-5 w-5 lg:hidden" />
         </div>
         <List className="gap-3">
