@@ -129,16 +129,27 @@ const ModifyProduct = () => {
                                                 props.setFieldValue("description", event.target.value);
                                             }}
                                         />
-                                        <SortDropdown />
-                                        <FilterDropdown
-                                            categories={categories}
-                                            onSelectCategory={onSelectCategory}
-                                        />
+                                        <select
+                                            className="ml-2 bg-gray-200 outline-none border-rounded"
+                                            onChange={props.handleChange}
+                                            name="CategoryId"
+                                            onChange={props.handleChange}
+                                        >
+
+                                            {categories.map((category) => (
+                                                <option value={category.id} key={category.id}>
+                                                    {category.name}
+                                                </option>
+                                            ))}
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <button type="submit" className="text-slate-100	bg-indigo-500">Publish</button>
+                        <div className="flex justify-center item-center">
+                            <p>{JSON.stringify(props.values)}</p>
+                        </div>
                     </form>
                 </div>
             )}
