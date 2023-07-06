@@ -20,6 +20,8 @@ app.use("/product", routes.product);
 
 app.use("/api/auth", routes.auth);
 
+app.use("/category", routes.category);
+
 // app.get("/api", (req, res) => {
 //   res.send(`Hello, this is my API`);
 // });
