@@ -28,10 +28,6 @@ const ModifyProduct = () => {
     const [categories, setCategories] = useState([]);
     const [selectedItem, setSelectedItem] = useState('1');
 
-    useEffect(() => {
-        axios.get("http://localhost:8000/product/getMyProduct/:id")
-    })
-
     const navigate = useNavigate();
 
     const token = localStorage.getItem("token");
@@ -93,7 +89,6 @@ const ModifyProduct = () => {
                             setFile(e.target.files[0])
                         }} style={{ display: "none" }} id='fileinput' type='file' name='file' />
 
-                        {JSON.stringify(props.values)}
 
                         <div className="flex flex-col justify-center items-center ">
                             <div className="mb-2 block">
@@ -116,7 +111,7 @@ const ModifyProduct = () => {
                                 />
 
                                 <div id="textarea">
-                                    <div className="mb-2 block">
+                                    <div className="mb-3 block">
                                         <Label
                                             htmlFor="description"
                                             value="change product description"
@@ -129,16 +124,27 @@ const ModifyProduct = () => {
                                                 props.setFieldValue("description", event.target.value);
                                             }}
                                         />
-                                        <SortDropdown />
-                                        <FilterDropdown
-                                            categories={categories}
-                                            onSelectCategory={onSelectCategory}
-                                        />
+                                        <select
+                                            className="ml-2 bg-gray-200 outline-none border-rounded"
+                                            onChange={props.handleChange}
+                                            name="CategoryId"
+                                            onChange={props.handleChange}
+                                        >
+
+                                            {categories.map((category) => (
+                                                <option value={category.id} key={category.id}>
+                                                    {category.name}
+                                                </option>
+                                            ))}
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <button type="submit" className="text-slate-100	bg-indigo-500">Publish</button>
+                        <div className="flex justify-center item-center">
+                            <p>{JSON.stringify(props.values)}</p>
+                        </div>
                     </form>
                 </div>
             )}
