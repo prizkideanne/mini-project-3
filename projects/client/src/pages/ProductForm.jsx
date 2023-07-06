@@ -1,40 +1,35 @@
-import React from 'react'
-import axios from 'axios'
-import { useState } from 'react'
+import React from "react";
+import axios from "axios";
+import { useState } from "react";
 import InputWithValidation from "../components/InputWithValidation";
 import { useNavigate } from "react-router-dom";
-import { Formik, useFormik } from 'formik'
-import withAuth from '../withAuth';
+import { Formik, useFormik } from "formik";
+import withAuth from "../withAuth";
 
 function ProductForm() {
   const [errorMessage, setErrorMessage] = useState("");
   const [file, setFile] = useState(null);
   const navigate = useNavigate();
 
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("token");
 
   const formik = useFormik({
     initialValues: {
       name: "",
       price: "",
       description: "",
-      category: ""
-    }, onSubmit: (values) => {
+      category: "",
+    },
+    onSubmit: (values) => {
       setErrorMessage("");
-      console.log("test", values)
+      console.log("test", values);
       // console.log("file", file.name)
       handleOnCreateproduct(values);
     },
-  })
+  });
 
   const handleOnCreateproduct = (values) => {
-    const {
-      name,
-      price,
-      description,
-      category,
-
-    } = values;
+    const { name, price, description, category } = values;
     console.log("productForm", values);
     const data = new FormData();
     data.append("name", name);
@@ -46,7 +41,7 @@ function ProductForm() {
       .post("http://localhost:8000/product/createProduct", data, {
         headers: {
           Authorization: `Bearer ${token}`,
-        }
+        },
       })
       .then(({ data }) => {
         console.log(data);
@@ -56,32 +51,47 @@ function ProductForm() {
       .catch(({ response }) => {
         setErrorMessage(response.data.message);
       });
-
-
   };
   return (
-    <div className="flex h-screen w-full bg-blue-600 justify-center lg:mt-0 lg:items-center">
+    <div className="flex h-screen w-full justify-center bg-blue-600 lg:mt-0 lg:items-center">
       <div>
         <form
-          className="w-[390px] lg:w-[1800px] md:w-[600px] flex flex-col rounded-md border bg-yellow-300 border-red-400 p-10"
+          className="flex w-[390px] flex-col rounded-md border border-red-400 bg-yellow-300 p-10 md:w-[600px] lg:w-full"
           onSubmit={(e) => {
             e.preventDefault();
             formik.handleSubmit();
           }}
         >
           {/* tampilan gambar */}
-          <div className='w-[390px] lg:w-[1800px] md:w-[600px] mb-9 flex justify-center'>
-            <img className="box-border h-40 w-40 p-4 border-4 item" src={file ? URL.createObjectURL(file) : "https://www.freepnglogos.com/uploads/plus-icon/red-plus-clip-art-clkerm-vector-clip-art-online-15.png"} alt="" />
+          <div className="mb-9 flex w-[390px] justify-center md:w-[600px] lg:w-full">
+            <img
+              className="item box-border h-40 w-40 border-4 p-4"
+              src={
+                file
+                  ? URL.createObjectURL(file)
+                  : "https://www.freepnglogos.com/uploads/plus-icon/red-plus-clip-art-clkerm-vector-clip-art-online-15.png"
+              }
+              alt=""
+            />
           </div>
 
           {/* tombol pilih gambar */}
-          <label className="w-[390px] lg:w-[1800px] md:w-[600px] mb-9 bg-contain text-center text-slate-100 bg-indigo-500" htmlFor='fileinput'>
+          <label
+            className="text-slate-100 mb-9 w-full bg-indigo-500 bg-contain text-center"
+            htmlFor="fileinput"
+          >
             Choose Photo Product
           </label>
-          <input onChange={e => {
-            console.log(e.target.files[0])
-            setFile(e.target.files[0])
-          }} style={{ display: "none" }} id='fileinput' type='file' name='file' />
+          <input
+            onChange={(e) => {
+              console.log(e.target.files[0]);
+              setFile(e.target.files[0]);
+            }}
+            style={{ display: "none" }}
+            id="fileinput"
+            type="file"
+            name="file"
+          />
 
           <span>Product Name</span>
           <InputWithValidation
@@ -102,12 +112,13 @@ function ProductForm() {
           />
 
           <span>description</span>
-          <textarea name="description"
+          <textarea
+            name="description"
             placeholder="description"
-            className='border border-1 border-black  rounded-md'
+            className="border-1 rounded-md border  border-black"
             values={formik.values.description}
-            onChange={formik.handleChange}>
-          </textarea>
+            onChange={formik.handleChange}
+          ></textarea>
 
           <span>Category</span>
           <InputWithValidation
@@ -118,11 +129,11 @@ function ProductForm() {
             error={formik.errors.category}
           />
 
-          <button type="submit" className="text-slate-100	bg-indigo-500">Publish</button>
+          <button type="submit" className="text-slate-100	bg-indigo-500">
+            Publish
+          </button>
         </form>
       </div>
-
-
     </div>
     // <Formik
 
@@ -156,8 +167,7 @@ function ProductForm() {
 
     // )}
     // </Formik>
-  )
+  );
 }
 
-
-export default withAuth(ProductForm)
+export default withAuth(ProductForm);

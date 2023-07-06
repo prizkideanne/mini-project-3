@@ -28,6 +28,10 @@ const ModifyProduct = () => {
     const [categories, setCategories] = useState([]);
     const [selectedItem, setSelectedItem] = useState('1');
 
+    useEffect(() => {
+        axios.get("http://localhost:8000/product/getMyProduct/:id")
+    })
+
     const navigate = useNavigate();
 
     const token = localStorage.getItem("token");
@@ -89,6 +93,7 @@ const ModifyProduct = () => {
                             setFile(e.target.files[0])
                         }} style={{ display: "none" }} id='fileinput' type='file' name='file' />
 
+                        {JSON.stringify(props.values)}
 
                         <div className="flex flex-col justify-center items-center ">
                             <div className="mb-2 block">
@@ -111,7 +116,7 @@ const ModifyProduct = () => {
                                 />
 
                                 <div id="textarea">
-                                    <div className="mb-3 block">
+                                    <div className="mb-2 block">
                                         <Label
                                             htmlFor="description"
                                             value="change product description"
