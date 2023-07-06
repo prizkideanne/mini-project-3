@@ -133,7 +133,7 @@ const ModifyProduct = () => {
                                             className="ml-2 bg-gray-200 outline-none border-rounded"
                                             onChange={props.handleChange}
                                             name="CategoryId"
-                                            onChange={props.handleChange}
+
                                         >
 
                                             {categories.map((category) => (
