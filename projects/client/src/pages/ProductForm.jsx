@@ -53,23 +53,23 @@ function ProductForm() {
       });
   };
   return (
-    <div className="flex h-screen w-full justify-center bg-blue-600 lg:mt-0 lg:items-center">
+    <div className="flex h-screen w-full justify-center bg-yellow-300 lg:mt-0 lg:items-center">
       <div>
         <form
-          className="flex w-[390px] flex-col rounded-md border border-red-400 bg-yellow-300 p-10 md:w-[600px] lg:w-full"
+          className="flex w-[390px]:left-1 flex-col rounded-md bg-yellow-300 p-10 md:w-[600px] lg:w-full"
           onSubmit={(e) => {
             e.preventDefault();
             formik.handleSubmit();
           }}
         >
           {/* tampilan gambar */}
-          <div className="mb-9 flex w-[390px] justify-center md:w-[600px] lg:w-full">
+          <div className="mb-9 flex max-w-[956px]:  justify-center md:w-[600px] lg:w-full">
             <img
-              className="item box-border h-40 w-40 border-4 p-4"
+              className=" w-[726px]:left-1  p-0 h-40 w-50 border-0 scale-125 space-x-4 my-8 object-fill "
               src={
                 file
                   ? URL.createObjectURL(file)
-                  : "https://www.freepnglogos.com/uploads/plus-icon/red-plus-clip-art-clkerm-vector-clip-art-online-15.png"
+                  : "https://logodix.com/logo/360466.png"
               }
               alt=""
             />
@@ -77,7 +77,7 @@ function ProductForm() {
 
           {/* tombol pilih gambar */}
           <label
-            className="text-slate-100 mb-9 w-full bg-indigo-500 bg-contain text-center"
+            className="text-slate-100 mb-9 w-full text-white bg-indigo-500 bg-contain text-center"
             htmlFor="fileinput"
           >
             Choose Photo Product
@@ -129,7 +129,7 @@ function ProductForm() {
             error={formik.errors.category}
           />
 
-          <button type="submit" className="text-slate-100	bg-indigo-500">
+          <button type="submit" className="text-slate-100	bg-indigo-500 text-white" >
             Publish
           </button>
         </form>

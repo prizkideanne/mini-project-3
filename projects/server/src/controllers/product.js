@@ -111,6 +111,32 @@ const getMyProduct = async (req, res) => {
   }
 };
 
+const getProductByUsername = async (req, res) => {
+  const { username } = req.params;
+  try {
+    const results = await db.Product.findAll({
+      include: [
+        {
+          model: db.User,
+          where: { username },
+          attributes: {
+            exclude: ["password"],
+          },
+        },
+      ],
+    });
+    res.send({
+      message: "success get product from profile",
+      data: results,
+    });
+  } catch (errors) {
+    res.status(500).send({
+      message: "fatal error on server",
+      errors,
+    });
+  }
+};
+
 const editProduct = async (req, res) => {
   const id = Number(req.params.id);
 
@@ -168,4 +194,5 @@ module.exports = {
   editProduct,
   getAllProduct,
   getMyProduct,
+  getProductByUsername,
 };
