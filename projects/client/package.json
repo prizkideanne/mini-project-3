@@ -9,18 +9,27 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.15",
+    "@material-tailwind/react": "^2.0.4",
+    "@reduxjs/toolkit": "^1.9.5",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
+    "flowbite-react": "^0.4.10",
     "formik": "^2.4.2",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.10.1",
+    "react-redux": "^8.1.1",
     "react-router-dom": "^6.14.0",
     "react-scripts": "5.0.1",
+    "redux": "^4.2.1",
     "web-vitals": "^2.1.4",
-    "yup": "^1.2.0"
+    "yup": "^1.2.0",
+    "yup-password": "^0.2.2"
   },
   "eslintConfig": {
     "extends": [
@@ -41,6 +50,8 @@
     ]
   },
   "devDependencies": {
+    "prettier": "^2.8.8",
+    "prettier-plugin-tailwindcss": "^0.3.0",
     "tailwindcss": "^3.3.2"
   }
 }
