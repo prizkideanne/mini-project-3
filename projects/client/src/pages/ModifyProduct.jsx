@@ -18,15 +18,21 @@ const ModifyProduct = () => {
         setSelectedItem(event.target.value);
     };
 
-    const onSelectCategory = (category) => {
-        console.log(category)
-    };
-
     const [value, setValue] = useState("");
     const [products, setProducts] = useState([]);
     const [file, setFile] = useState(null);
     const [categories, setCategories] = useState([]);
     const [selectedItem, setSelectedItem] = useState('1');
+
+    useEffect(() => {
+        axios.get("http://localhost:8000/category/getAllCategories")
+            .then((response) => {
+                setCategories(response.data.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, []);
 
     useEffect(() => {
         axios.get("http://localhost:8000/product/getMyProduct/:id")
@@ -77,15 +83,16 @@ const ModifyProduct = () => {
         >
 
             {(props) => (
-                <div className="flex h-screen w-full bg-blue-600 justify-center lg:mt-0 lg:items-center">
-                    <form className="flex flex-col w-[390px] lg:w-[1800px] md:w-[600px] flex flex-col rounded-md border bg-yellow-300 border-red-400 p-10-4" onSubmit={props.handleSubmit}>
+                <div className="flex h-screen w-full justify-center bg-yellow-300 lg:mt-0 lg:items-center">
+                    <form className="flex w-[390px]:left-1 flex-col rounded-md bg-yellow-300 p-10 md:w-[600px] lg:w-full" onSubmit={props.handleSubmit}>
                         {/* tampilan gambar */}
-                        <div className='w-[390px] lg:w-[1800px] md:w-[600px] mb-9 flex justify-center'>
-                            <img className="box-border h-40 w-40 p-4 border-4 item" src={file ? URL.createObjectURL(file) : "https://www.freepnglogos.com/uploads/plus-icon/red-plus-clip-art-clkerm-vector-clip-art-online-15.png"} alt="" />
+                        <div className='mb-9 flex max-w-[956px]:  justify-center md:w-[600px] lg:w-full'>
+                            <img className=" w-[726px]:left-1  p-0 h-40 w-50 border-0 scale-125 space-x-4 my-8 object-fill"
+                                src={file ? URL.createObjectURL(file) : "https://logodix.com/logo/360466.png"} alt="" />
                         </div>
 
                         {/* tombol pilih gambar */}
-                        <label className="w-[390px] lg:w-[1800px] md:w-[600px] mb-9 bg-contain text-center text-slate-100 bg-indigo-500" htmlFor='fileinput'>
+                        <label className="p-1 mb-4 cursor-pointer text-slate-100 mb-9 w-100% text-white bg-indigo-500 bg-contain text-center flex w-[390px]: justify-center item-center" htmlFor='fileinput'>
                             Choose Photo Product
                         </label>
                         <input onChange={(e) => {
@@ -93,12 +100,11 @@ const ModifyProduct = () => {
                             setFile(e.target.files[0])
                         }} style={{ display: "none" }} id='fileinput' type='file' name='file' />
 
-                        {JSON.stringify(props.values)}
-
                         <div className="flex flex-col justify-center items-center ">
                             <div className="mb-2 block">
                                 <Label htmlFor="name" value="Change Product Name" />
                                 <TextInput
+                                    className="mb-4"
                                     id="name"
                                     type="text"
                                     placeholder="Product Name"
@@ -108,6 +114,7 @@ const ModifyProduct = () => {
                                 />
                                 <Label htmlFor="price" value="change price" />
                                 <TextInput
+                                    className="mb-4"
                                     type="text"
                                     placeholder="Change Price"
                                     name="price"
@@ -116,13 +123,14 @@ const ModifyProduct = () => {
                                 />
 
                                 <div id="textarea">
-                                    <div className="mb-2 block">
+                                    <div className="mb-4 block">
                                         <Label
                                             htmlFor="description"
                                             value="change product description"
                                         />
                                         <Textarea
                                             type="text"
+                                            className="mb-9 resize border-1 rounded-md border  border-black"
                                             placeholder="description of product"
                                             name="description"
                                             onChange={(event) => {
@@ -130,7 +138,7 @@ const ModifyProduct = () => {
                                             }}
                                         />
                                         <select
-                                            className="ml-2 bg-gray-200 outline-none border-rounded"
+                                            className="flex justify-center item-center mb-5 ml-8 bg-gray-200 outline-none border-rounded"
                                             onChange={props.handleChange}
                                             name="CategoryId"
 
@@ -146,10 +154,7 @@ const ModifyProduct = () => {
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" className="text-slate-100	bg-indigo-500">Publish</button>
-                        <div className="flex justify-center item-center">
-                            <p>{JSON.stringify(props.values)}</p>
-                        </div>
+                        <button type="submit" className="cursor-pointer text-slate-100	bg-indigo-500 text-white">Publish</button>
                     </form>
                 </div>
             )}
