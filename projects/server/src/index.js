@@ -22,6 +22,8 @@ app.use("/api/auth", routes.auth);
 
 app.use("/category", routes.category);
 
+app.use("/orderDetail", routes.orderDetail);
+
 // app.get("/api", (req, res) => {
 //   res.send(`Hello, this is my API`);
 // });
