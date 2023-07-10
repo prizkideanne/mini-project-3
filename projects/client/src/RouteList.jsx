@@ -43,7 +43,14 @@ function RouteList() {
           }
         />
         <Route element={<PrivateWrapper />}>
-          <Route path="/cart" element={<Cart />} />
+          <Route
+            path="/cart"
+            element={
+              <Layout>
+                <Cart />
+              </Layout>
+            }
+          />
         </Route>
         <Route path="/product/:id" element={<ProductDetails />} />
 
@@ -100,7 +107,11 @@ function RouteList() {
         <Route path="/my-dashboard/product-form" element={<ProductForm />} />
         <Route
           path="/my-dashboard/modifyProduct/:id"
-          element={<ModifyProduct />}
+          element={
+            <DashboardLayout>
+              <ModifyProduct />
+            </DashboardLayout>
+          }
         />
         {/* Auth */}
         <Route element={<PublicWrapper />}>
