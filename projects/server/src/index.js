@@ -24,7 +24,7 @@ app.use("/category", routes.category);
 
 app.use("/orderDetail", routes.orderDetail);
 app.use("/cart", routes.transaction);
-app.use("/orderProduct", routes.transaction);
+app.use("/orderProduct", routes.orderProduct);
 
 // app.get("/api", (req, res) => {
 //   res.send(`Hello, this is my API`);
