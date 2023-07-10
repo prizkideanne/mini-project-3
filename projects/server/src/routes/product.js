@@ -3,6 +3,7 @@ const {
   editProduct,
   getAllProduct,
   getMyProduct,
+  getProductById,
 } = require("../controllers/product");
 const router = require("express").Router();
 const multerUpload = require("../middleware/multer");
@@ -20,7 +21,8 @@ router.patch(
   multerUpload.single("file"),
   editProduct
 );
+router.get("/getProduct/:id", getProductById);
 router.get("/getAllProduct", getAllProduct);
-router.get("/getMyProduct/:id", verifyToken, getMyProduct);
+router.get("/getMyProduct", verifyToken, getMyProduct);
 
 module.exports = router;

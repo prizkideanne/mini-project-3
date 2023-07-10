@@ -8,7 +8,7 @@ const fs = require("fs");
 
 const createProduct = async (req, res) => {
   const userId = req.user.id;
-  const { name, price, description, categoryId } = req.body;
+  const { name, price, description, category } = req.body;
 
   const imageUrl = setFromFileNameToDBValue(req.file?.filename);
   try {
@@ -16,7 +16,7 @@ const createProduct = async (req, res) => {
       name: name,
       price: price,
       description: description,
-      categoryId: Number(categoryId),
+      categoryId: Number(category),
       imageUrl: imageUrl,
       userId: userId,
     });
@@ -111,17 +111,17 @@ const getMyProduct = async (req, res) => {
   }
 };
 
-const getProductByUsername = async (req, res) => {
-  const { username } = req.params;
+const getProductById = async (req, res) => {
+  const { id } = req.params;
   try {
-    const results = await db.Product.findAll({
+    const results = await db.Product.findOne({
+      where: {
+        id: id,
+      },
       include: [
         {
           model: db.User,
-          where: { username },
-          attributes: {
-            exclude: ["password"],
-          },
+          attributes: ["username"],
         },
       ],
     });
@@ -194,5 +194,5 @@ module.exports = {
   editProduct,
   getAllProduct,
   getMyProduct,
-  getProductByUsername,
+  getProductById,
 };

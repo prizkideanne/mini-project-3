@@ -22,6 +22,7 @@ app.use("/api/auth", routes.auth);
 
 app.use("/category", routes.category);
 
+app.use("/orderDetail", routes.orderDetail);
 app.use("/cart", routes.transaction);
 
 // app.get("/api", (req, res) => {
