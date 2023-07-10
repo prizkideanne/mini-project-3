@@ -52,10 +52,17 @@ function RouteList() {
             }
           />
         </Route>
-        <Route path="/product/:id" element={<ProductDetails />} />
+        <Route
+          path="/product/:id"
+          element={
+            <Layout>
+              <ProductDetails />
+            </Layout>
+          }
+        />
 
         <Route
-          path="/my-dashboard"
+          path="/dashboard"
           element={
             <DashboardLayout>
               <MyDashboard />
@@ -63,7 +70,7 @@ function RouteList() {
           }
         />
         <Route
-          path="/my-dashboard/my-store"
+          path="/dashboard/store"
           element={
             <DashboardLayout>
               <MyStore />
@@ -71,7 +78,7 @@ function RouteList() {
           }
         />
         <Route
-          path="/my-dashboard/my-transaction"
+          path="/dashboard/transaction"
           element={
             <DashboardLayout>
               <MyTransaction />
@@ -79,7 +86,7 @@ function RouteList() {
           }
         />
         <Route
-          path="/my-dashboard/gross-income"
+          path="/dashboard/income"
           element={
             <DashboardLayout>
               <GrossIncome />
@@ -87,7 +94,7 @@ function RouteList() {
           }
         />
         <Route
-          path="/my-dashboard/category-form"
+          path="/dashboard/category"
           element={
             <DashboardLayout>
               <CategoryForm />
@@ -95,18 +102,23 @@ function RouteList() {
           }
         />
         <Route
-          path="/my-dashboard/product-form"
+          path="/dashboard/transactions"
+          element={
+            <DashboardLayout>
+              <MyTransaction />
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/dashboard/product"
           element={
             <DashboardLayout>
               <ProductForm />
             </DashboardLayout>
           }
         />
-        <Route path="/my-dashboard/gross-income" element={<GrossIncome />} />
-        <Route path="/my-dashboard/category-form" element={<CategoryForm />} />
-        <Route path="/my-dashboard/product-form" element={<ProductForm />} />
         <Route
-          path="/my-dashboard/modifyProduct/:id"
+          path="/dashboard/store/modify-product/:id"
           element={
             <DashboardLayout>
               <ModifyProduct />
