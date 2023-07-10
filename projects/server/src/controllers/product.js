@@ -91,7 +91,7 @@ const getMyProduct = async (req, res) => {
   try {
     const where = { userId };
     if (pagination.search) {
-      where.content = {
+      where.name = {
         [db.Sequelize.Op.like]: `%${pagination.search}%`,
       };
     }
@@ -105,11 +105,15 @@ const getMyProduct = async (req, res) => {
       where,
       limit: pagination.perPage,
       offset: (pagination.page - 1) * pagination.perPage,
-      sort,
+      sort: pagination.sortBy,
     });
 
     const countData = await db.Product.count({ where });
     pagination.totalData = countData;
+
+    const totalPage = Math.ceil(pagination.totalData / pagination.perPage);
+    pagination.totalPage = totalPage;
+
     res.send({
       message: "success get Product",
       pagination,
