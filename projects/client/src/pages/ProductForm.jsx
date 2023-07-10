@@ -139,8 +139,10 @@ function ProductForm() {
           <select
             className="mb-5 ml-2 bg-gray-200 outline-none border-rounded"
             onChange={formik.handleChange}
-            name="Category"
+            value={formik.values.category}
+            name="category"
           >
+            <option value="">select category</option>
             {categories.map((category) => (
               <option value={category.id} key={category.id}>
                 {category.name}
@@ -149,7 +151,7 @@ function ProductForm() {
           </select>
 
 
-          <button type="submit" className="cursor-pointer text-slate-100	bg-indigo-500 text-white" >
+          <button type="submit" className="cursor-pointer text-slate-100	bg-indigo-500 text-white" useNavigate="/myStore" >
             Publish
           </button>
         </form>
