@@ -13,7 +13,7 @@ module.exports = {
         return;
       }
 
-      const isExist = await Cart.findOne({
+      const isExist = await db.Cart.findOne({
         where: {
           userId: userId,
           productId: productId,
@@ -21,17 +21,19 @@ module.exports = {
       });
 
       if (isExist) {
-        const updateExisting = await Cart.Update(
-          { quantity: quantity++ },
-          { where: { userId: userId, productId: productId } }
-        );
+        // const updateExisting = await db.Cart.update(
+        //   { quantity: quantity + 1 },
+        //   { where: { userId: userId, productId: productId } }
+        // );
+        isExist.quantity = quantity;
+        await isExist.save();
         return res.status(201).send({
           message: "updated to cart",
-          data: updateExisting,
+          data: isExist,
         });
       }
 
-      const result = await Cart.create({
+      const result = await db.Cart.create({
         userId: userId,
         productId: productId,
         quantity: Number(quantity),
@@ -53,7 +55,7 @@ module.exports = {
     const userId = req.user.id;
 
     try {
-      const result = await Cart.findAll({
+      const result = await db.Cart.findAll({
         where: { userId: userId },
         include: [Product],
       });

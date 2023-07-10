@@ -2,22 +2,55 @@ const db = require("../../models");
 
 const createOrderDetail = async (req, res) => {
   const userId = req.user.id;
-  const { total, address } = req.body;
+  const { address } = req.body;
 
   try {
+    const carts = await db.Cart.findAll({
+      where: { userId: userId },
+      include: [{ model: db.Product, attributes: { exclude: "productId" } }],
+    });
+
+    if (!carts) {
+      return res.status(404).send({ message: "Cart not found" });
+    }
+
+    let total = 0;
+    for (const cart of carts) {
+      total += cart.Product.price * cart.quantity;
+    }
+
     const newOrderDetail = await db.Order_Detail.create({
       userId: userId,
       total: Number(total),
       address: address,
     });
-    res.status(201).send({
-      message: "success create Order Detail",
-      data: newOrderDetail,
+
+    for (const cart of carts) {
+      for (let i = 1; i <= cart.quantity; i++) {
+        await db.Order_Product.create({
+          orderId: newOrderDetail.id,
+          productId: cart.productId,
+        });
+      }
+    }
+
+    await db.Cart.destroy({
+      where: {
+        userId: userId,
+      },
     });
-  } catch (errors) {
+
+    res.status(201).send({
+      message: "Success create Order Detail",
+      data: {
+        orderDetail: newOrderDetail,
+      },
+    });
+  } catch (error) {
+    console.log(error);
     res.status(500).send({
-      message: "fatal error on server",
-      errors,
+      message: "Fatal error on server",
+      error,
     });
   }
 };
