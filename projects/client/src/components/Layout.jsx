@@ -4,9 +4,9 @@ import Footer from "./Footer";
 
 function Layout(props) {
   return (
-    <div className="bg-[#F3ECD7]">
+    <div className="flex min-h-screen flex-col bg-[#F3ECD7]">
       <Header />
-      <div>{props.children}</div>
+      <div className="flex flex-grow">{props.children}</div>
       <Footer />
     </div>
   );
