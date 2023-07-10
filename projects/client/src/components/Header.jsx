@@ -1,5 +1,6 @@
 import Logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/userReducer/userSlice";
@@ -25,6 +26,11 @@ function Header() {
       <div className="z-20 text-right">
         {isLoggedIn ? (
           <div className="flex flex-row items-center">
+            <div>
+              <Link to="/cart">
+                <AiOutlineShoppingCart className="mr-3 h-5 w-5" />
+              </Link>
+            </div>
             <ProfileDropdown
               user={user}
               onLogout={() => {

@@ -4,7 +4,7 @@ import Twitter from "../assets/twitter.png";
 
 function Footer() {
   return (
-    <div className="bottom-0 flex w-full flex-col items-center bg-[#F1C831] px-4 py-8">
+    <div className="flex w-full flex-col items-center bg-[#F1C831] px-4 py-8">
       <div className="mb-10 flex flex-row items-center justify-center">
         <button>
           <img

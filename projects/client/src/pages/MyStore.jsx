@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
 
 function MyStore() {
-  return (
-    <div>MyStore</div>
-  )
+  console.log("adsdasd");
+  return <div>MyStore</div>;
 }
 
-export default MyStore
+export default MyStore;
