@@ -33,7 +33,7 @@ function SideBar({ closeSideBar, isShow }) {
         </div>
         <List className="gap-3">
           <ListItem
-            onClick={() => navigate("/my-dashboard/my-store")}
+            onClick={() => navigate("/dashboard/store")}
             className="gap-3"
           >
             <ListItemPrefix>
@@ -42,7 +42,7 @@ function SideBar({ closeSideBar, isShow }) {
             My Store
           </ListItem>
           <ListItem
-            onClick={() => navigate("/my-dashboard/my-transaction")}
+            onClick={() => navigate("/dashboard/transaction")}
             className="gap-3"
           >
             <ListItemPrefix>
@@ -51,7 +51,7 @@ function SideBar({ closeSideBar, isShow }) {
             My Transaction
           </ListItem>
           <ListItem
-            onClick={() => navigate("/my-dashboard/gross-income")}
+            onClick={() => navigate("/dashboard/gross-income")}
             className="gap-3"
           >
             <ListItemPrefix>
@@ -60,7 +60,7 @@ function SideBar({ closeSideBar, isShow }) {
             My Income
           </ListItem>
           <ListItem
-            onClick={() => navigate("/my-dashboard/product-form")}
+            onClick={() => navigate("/dashboard/product")}
             className="gap-3"
           >
             <ListItemPrefix>
@@ -69,7 +69,7 @@ function SideBar({ closeSideBar, isShow }) {
             Add Product
           </ListItem>
           <ListItem
-            onClick={() => navigate("/my-dashboard/category-form")}
+            onClick={() => navigate("/dashboard/category")}
             className="gap-3"
           >
             <ListItemPrefix>
