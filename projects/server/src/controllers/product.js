@@ -37,27 +37,36 @@ const getAllProduct = async (req, res) => {
   const pagination = {
     page: Number(req.query.page) || 1,
     perPage: Number(req.query.perPage) || 9,
-    search: req.query.search || undefined,
+    search: req.query.search || "",
   };
   try {
+    const where = { isActive: true };
     if (pagination.search) {
-      where.content = {
+      where.name = {
         [db.Sequelize.Op.like]: `%${pagination.search}%`,
       };
     }
 
+    // const order = [];
+    // for (const sort in pagination.sortBy) {
+    //   order.push([sort, pagination.sortBy[sort]]);
+    // }
+
     const results = await db.Product.findAll({
       include: [
-        { model: db.User, attributes: ["username"], as: "User" },
+        { model: db.User, attributes: ["username", "storeName"], as: "User" },
         { model: db.Category, attributes: ["name"], as: "Category" },
       ],
-      // where,
+      where,
       limit: pagination.perPage,
       offset: (pagination.page - 1) * pagination.perPage,
     });
 
-    const countData = await db.Product.count();
+    const countData = await db.Product.count({ where });
     pagination.totalData = countData;
+    const totalPage = Math.ceil(pagination.totalData / pagination.perPage);
+    pagination.totalPage = totalPage;
+
     res.send({
       message: "success get Product",
       pagination,
@@ -76,7 +85,7 @@ const getMyProduct = async (req, res) => {
   const pagination = {
     page: Number(req.query.page) || 1,
     perPage: Number(req.query.perPage) || 9,
-    search: req.query.search || undefined,
+    search: req.query.search || "",
     sortBy: req.query.sortBy,
   };
   try {
@@ -86,16 +95,19 @@ const getMyProduct = async (req, res) => {
         [db.Sequelize.Op.like]: `%${pagination.search}%`,
       };
     }
+
     const order = []; // generate order/sorting
     for (const sort in pagination.sortBy) {
       order.push([sort, pagination.sortBy[sort]]);
     }
+
     const results = await db.Product.findAll({
       where,
       limit: pagination.perPage,
       offset: (pagination.page - 1) * pagination.perPage,
-      order,
+      sort,
     });
+
     const countData = await db.Product.count({ where });
     pagination.totalData = countData;
     res.send({
