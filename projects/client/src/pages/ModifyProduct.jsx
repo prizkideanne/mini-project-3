@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Label, TextInput, Textarea } from "flowbite-react";
-import { Formik } from "formik";
+import { Formik, useFormikContext } from "formik";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
 const ModifyProduct = () => {
   const { id } = useParams();
 
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(null);
   const [file, setFile] = useState(null);
   const [categories, setCategories] = useState([]);
   const [selectedItem, setSelectedItem] = useState("1");
@@ -24,8 +24,24 @@ const ModifyProduct = () => {
   }, []);
 
   useEffect(() => {
-    axios.get(process.env.REACT_APP_API_BASE_URL + "/product/getMyProduct/:id");
-  });
+    axios
+      .get(`${process.env.REACT_APP_API_BASE_URL}/product/getProduct/${id}`)
+      .then((result) => {
+        const { data } = result;
+        const productData = data.data;
+        const v = {
+          name: productData.name,
+          description: productData.description,
+          category: productData.categoryId,
+          price: productData.price,
+          imageUrl: productData.imageUrl,
+        };
+        setValue(v);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [id]);
 
   const navigate = useNavigate();
 
@@ -38,7 +54,9 @@ const ModifyProduct = () => {
     data.append("price", price);
     data.append("description", description);
     data.append("categoryId", category);
-    data.append("file", file);
+    if (file) {
+      data.append("file", file);
+    }
 
     axios
       .patch(
@@ -51,9 +69,10 @@ const ModifyProduct = () => {
         }
       )
 
-      .then((response) => {
-        console.log(response);
-        setValue(response.data);
+      .then((result) => {
+        console.log(result.message);
+        alert("Create Product Success, " + data.message);
+        // setValue(response.data);
       })
       .catch((err) => console.log(err));
 
@@ -62,14 +81,15 @@ const ModifyProduct = () => {
     }, 2000);
   };
 
+  if (value === null) {
+    return <div>loading</div>;
+  }
+
   return (
     <Formik
       initialValues={{
         file: null,
-        name: "",
-        description: "",
-        price: Number(""),
-        category: Number(""),
+        ...value,
       }}
       // validationSchema={CreateSchema}
       onSubmit={handleSubmit}
@@ -87,7 +107,7 @@ const ModifyProduct = () => {
                 src={
                   file
                     ? URL.createObjectURL(file)
-                    : "https://logodix.com/logo/360466.png"
+                    : `${process.env.REACT_APP_API_BASE_URL}${value.imageUrl}`
                 }
                 alt=""
               />
@@ -95,7 +115,7 @@ const ModifyProduct = () => {
 
             {/* tombol pilih gambar */}
             <label
-              className="text-slate-100 w-100% w-[390px]: item-center mb-4 rounded-md px-2 py-1 flex cursor-pointer justify-center bg-science-blue-500 bg-contain p-1 text-center text-white"
+              className="text-slate-100 w-100% w-[390px]: item-center mb-4 flex cursor-pointer justify-center rounded-md bg-science-blue-500 bg-contain p-1 px-2 py-1 text-center text-white"
               htmlFor="fileinput"
             >
               Choose Photo Product
@@ -119,10 +139,10 @@ const ModifyProduct = () => {
                   className="mb-4"
                   id="name"
                   type="text"
-                  placeholder="Product Name"
+                  placeholder="Product name"
                   name="name"
-                  onChange={props.handleChange}
                   value={props.values.name}
+                  onChange={props.handleChange}
                 />
                 <Label htmlFor="price" value="Price" />
                 <TextInput
@@ -136,15 +156,13 @@ const ModifyProduct = () => {
 
                 <div id="textarea" className="">
                   <div className="mb-4 block">
-                    <Label
-                      htmlFor="description"
-                      value="Description"
-                    />
+                    <Label htmlFor="description" value="Description" />
                     <Textarea
                       type="text"
                       className="border-1 mb-9 resize rounded-md border  border-black"
                       placeholder="description of product"
                       name="description"
+                      value={props.values.description}
                       onChange={(event) => {
                         props.setFieldValue("description", event.target.value);
                       }}
@@ -152,7 +170,8 @@ const ModifyProduct = () => {
                     <select
                       className="item-center border-rounded mb-5 ml-8 flex justify-center bg-science-blue-200 outline-none"
                       onChange={props.handleChange}
-                      name="CategoryId"
+                      name="category"
+                      value={props.values.category}
                     >
                       {categories.map((category) => (
                         <option value={category.id} key={category.id}>
@@ -166,7 +185,7 @@ const ModifyProduct = () => {
             </div>
             <button
               type="submit"
-              className="text-slate-100 px-2 py-1 rounded-md cursor-pointer	bg-science-blue-500 text-white"
+              className="text-slate-100 cursor-pointer rounded-md bg-science-blue-500 px-2	py-1 text-white"
             >
               Publish
             </button>
