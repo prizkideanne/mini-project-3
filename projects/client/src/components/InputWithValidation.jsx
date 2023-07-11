@@ -1,24 +1,25 @@
 import React from "react";
+import FormInput from "./FormInput";
 
 function InputWithValidation({
   name,
-  placeholder,
-  classname,
   touched,
   error,
   formikConfig,
+  label,
   type,
+  required,
 }) {
   return (
-    <div className="mb-3 flex flex-col">
-      <input
+    <div>
+      <FormInput
+        label={label}
         name={name}
-        className={`rounded-md border border-black px-3 py-1 ${classname}`}
-        placeholder={placeholder}
+        required={required}
         type={type}
-        {...formikConfig}
+        formikConfig={formikConfig}
       />
-      {touched && error ? <span className="text-red-500">{error}</span> : null}
+      {touched && error ? <p className="text-red-500 mt-1">{error}</p> : null}
     </div>
   );
 }

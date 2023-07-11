@@ -1,69 +1,138 @@
 import React, { useEffect, useState } from "react";
-import ProductCard from "../components/ProductCard";
 import axios from "axios";
-import FilterDropdown from "../components/FilterDropdown";
-import SortDropdown from "../components/SortDropdown";
+import ProductList from "../components/ProductList";
+
+const sorts = [
+  { title: "Oldest", value: "asc" },
+  { title: "Newest", value: "desc" },
+];
 
 function LandingPage() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(0);
+  const [disableNext, setDisableNext] = useState(false);
+  const [disablePrevious, setDisablePrevious] = useState(true);
+
   useEffect(() => {
     getProducts();
     getCategories();
   }, []);
 
+  useEffect(() => {
+    if (currentPage + 1 > totalPage) {
+      setDisableNext(true);
+    } else {
+      setDisableNext(false);
+    }
+
+    if (currentPage - 1 === 0) {
+      setDisablePrevious(true);
+    } else {
+      setDisablePrevious(false);
+    }
+  }, [currentPage, totalPage]);
+
   const getProducts = () => {
     axios
-      .get("https://fakestoreapi.com/products")
+      .get(
+        `${process.env.REACT_APP_API_BASE_URL}/product/getAllProduct?perPage=6`
+      )
       .then(({ data }) => {
-        setProducts(data);
+        const items = data.data.map(({ id, imageUrl, price, name }) => {
+          return {
+            id,
+            imageUrl,
+            price,
+            name,
+          };
+        });
+        setProducts(items);
+        setTotalPage(data.pagination.totalPage);
       })
       .catch((err) => console.log(err));
   };
 
   const getCategories = () => {
     axios
-      .get("https://fakestoreapi.com/products/categories")
+      .get(`${process.env.REACT_APP_API_BASE_URL}/category/getAllCategories`)
       .then(({ data }) => {
-        setCategories(data);
+        const items = data.data.map(({ id, name }) => ({
+          value: id,
+          title: name,
+        }));
+
+        setCategories(items);
       })
       .catch((err) => console.log(err));
   };
 
   const onSelectCategory = (category) => {
+    console.log("category", category);
+  };
+
+  const onSelectSort = (sort) => {
+    console.log("sort", sort);
+  };
+
+  const onClickNext = () => {
     axios
-      .get(`https://fakestoreapi.com/products/category/${category}`)
+      .get(
+        `${
+          process.env.REACT_APP_API_BASE_URL
+        }/product/getAllProduct?perPage=6&page=${currentPage + 1}`
+      )
       .then(({ data }) => {
-        setProducts(data);
+        const items = data.data.map(({ id, imageUrl, price, name }) => {
+          return {
+            id,
+            imageUrl,
+            price,
+            name,
+          };
+        });
+        setCurrentPage(data.pagination.page);
+        setProducts(items);
       })
       .catch((err) => console.log(err));
   };
 
-  const onSelectSort = (sort) => {
+  const onClickPrevious = () => {
     axios
-      .get(`https://fakestoreapi.com/products?sort=${sort}`)
+      .get(
+        `${
+          process.env.REACT_APP_API_BASE_URL
+        }/product/getAllProduct?perPage=6&page=${currentPage - 1}`
+      )
       .then(({ data }) => {
-        setProducts(data);
+        const items = data.data.map(({ id, imageUrl, price, name }) => {
+          return {
+            id,
+            imageUrl,
+            price,
+            name,
+          };
+        });
+        setCurrentPage(data.pagination.page);
+        setProducts(items);
       })
       .catch((err) => console.log(err));
   };
+
   return (
-    <div className="flex w-full items-center justify-center ">
-      <div className="flex max-w-[1366px] flex-col items-center justify-center p-5">
-        <div className="mb-5 flex w-full flex-row items-center gap-5">
-          <SortDropdown onSelectSort={onSelectSort} />
-          <FilterDropdown
-            categories={categories}
-            onSelectCategory={onSelectCategory}
-          />
-        </div>
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-6 lg:gap-5">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </div>
-    </div>
+    <ProductList
+      title={"PAWT Products!"}
+      categories={categories}
+      products={products}
+      disableNext={disableNext}
+      disablePrevious={disablePrevious}
+      onClickNext={onClickNext}
+      onClickPrevious={onClickPrevious}
+      onSelectCategory={onSelectCategory}
+      onSelectSort={onSelectSort}
+      sorts={sorts}
+    />
   );
 }
 

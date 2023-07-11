@@ -1,4 +1,5 @@
 const db = require("../../models");
+const { use } = require("../routes/product");
 
 module.exports = {
   async addToCart(req, res) {
@@ -57,10 +58,10 @@ module.exports = {
     try {
       const result = await db.Cart.findAll({
         where: { userId: userId },
-        include: [Product],
+        include: [db.Product],
       });
 
-      if (cart) {
+      if (result && result.length) {
         res.status(200).send({
           message: "success",
           data: result,
@@ -73,6 +74,34 @@ module.exports = {
     } catch (error) {
       console.log(error);
       res.status(500).send({ message: "somethong wrong on server" });
+    }
+  },
+
+  async deleteMyCart(req, res) {
+    const userId = req.user.id;
+    const { id } = req.params;
+
+    try {
+      if (!userId) {
+        return res.status(400).send({ message: "user not found" });
+      }
+
+      if (!id) {
+        return res.status(400).send({ message: "cart not found" });
+      }
+
+      const cartItem = await db.Cart.destroy({
+        where: { userId: userId, id: id },
+      });
+
+      const cartItemLeft = await db.Cart.findAll({
+        where: { userId: userId },
+        include: [db.Product],
+      });
+      res.status(200).send({ message: "success", data: cartItemLeft });
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({ message: "error on server" });
     }
   },
 };

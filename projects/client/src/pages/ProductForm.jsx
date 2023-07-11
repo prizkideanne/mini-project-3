@@ -2,15 +2,12 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import InputWithValidation from "../components/InputWithValidation";
-import { useNavigate } from "react-router-dom";
-import { Formik, useFormik } from "formik";
-import withAuth from "../withAuth";
+import { useFormik } from "formik";
 
 function ProductForm() {
   const [errorMessage, setErrorMessage] = useState("");
   const [file, setFile] = useState(null);
   const [categories, setCategories] = useState([]);
-  const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
 
@@ -21,28 +18,25 @@ function ProductForm() {
       description: "",
       category: "",
     },
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       setErrorMessage("");
-      console.log("test", values);
       // console.log("file", file.name)
-      handleOnCreateproduct(values);
+      handleOnCreateproduct(values, resetForm);
     },
   });
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/category/getAllCategories")
+      .get(process.env.REACT_APP_API_BASE_URL + "/category/getAllCategories")
       .then((response) => {
         setCategories(response.data.data);
-        console.log(response.data)
-        console.log(categories)
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
 
-  const handleOnCreateproduct = (values) => {
+  const handleOnCreateproduct = (values, resetForm) => {
     const { name, price, description, category } = values;
     console.log("productForm", values);
     const data = new FormData();
@@ -52,34 +46,38 @@ function ProductForm() {
     data.append("category", category);
     data.append("file", file);
     axios
-      .post("http://localhost:8000/product/createProduct", data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .post(
+        process.env.REACT_APP_API_BASE_URL + "/product/createProduct",
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then(({ data }) => {
         console.log(data);
         alert("Create Product Success, " + data.message);
-        navigate("/");
+        resetForm();
       })
       .catch(({ response }) => {
         setErrorMessage(response.data.message);
       });
   };
   return (
-    <div className="flex h-screen w-full justify-center bg-yellow-300 lg:mt-0 lg:items-center">
+    <div className="flex h-screen w-full justify-center  lg:mt-0 lg:items-center">
       <div>
         <form
-          className="flex w-[390px]:left-1 flex-col rounded-md bg-yellow-300 p-10 md:w-[600px] lg:w-full"
+          className="w-[390px]:left-1 flex flex-col rounded-md md:w-[600px] lg:w-full"
           onSubmit={(e) => {
             e.preventDefault();
             formik.handleSubmit();
           }}
         >
           {/* tampilan gambar */}
-          <div className="mb-9 flex max-w-[956px]:  justify-center md:w-[600px] lg:w-full">
+          <div className="mb-3 flex max-w-[956px] justify-center rounded-md border border-black bg-white md:w-[600px] lg:w-full">
             <img
-              className=" w-[726px]:left-1  p-0 h-40 w-50 border-0 scale-125 space-x-4 my-8 object-fill "
+              className=" w-[726px]:left-1  w-50 my-8 h-40 scale-125 space-x-4 border-0 object-fill p-0 "
               src={
                 file
                   ? URL.createObjectURL(file)
@@ -91,7 +89,7 @@ function ProductForm() {
 
           {/* tombol pilih gambar */}
           <label
-            className="cursor-pointer text-slate-100 mb-9 w-full text-white bg-indigo-500 bg-contain text-center"
+            className="text-slate-100 mb-9 w-full cursor-pointer rounded-md bg-science-blue-800 bg-contain  px-2 py-1 text-center text-white"
             htmlFor="fileinput"
           >
             Choose Photo Product
@@ -107,58 +105,63 @@ function ProductForm() {
             name="file"
           />
 
-          <span>Product Name</span>
-          <InputWithValidation
-            formikConfig={formik.getFieldProps("name")}
-            name="name"
-            placeholder="name"
-            touched={formik.touched.name}
-            error={formik.errors.name}
-          />
+          <div className="flex flex-col gap-4">
+            <InputWithValidation
+              formikConfig={formik.getFieldProps("name")}
+              name="name"
+              label="Product Name"
+              touched={formik.touched.name}
+              error={formik.errors.name}
+            />
 
-          <span>Price</span>
-          <InputWithValidation
-            formikConfig={formik.getFieldProps("price")}
-            name="price"
-            placeholder="price"
-            touched={formik.touched.price}
-            error={formik.errors.price}
-          />
+            <InputWithValidation
+              formikConfig={formik.getFieldProps("price")}
+              name="price"
+              label="Price"
+              touched={formik.touched.price}
+              error={formik.errors.price}
+            />
 
-          <span>description</span>
-          <textarea
-            name="description"
-            placeholder="description"
-            className="resize border-1 rounded-md border  border-black"
-            values={formik.values.description}
-            onChange={formik.handleChange}
-          ></textarea>
+            <div className="flex flex-col">
+              <span className="text-sm leading-6">Description</span>
+              <textarea
+                name="description"
+                placeholder="description"
+                className="border-1 resize rounded-md border  border-black"
+                values={formik.values.description}
+                onChange={formik.handleChange}
+              />
+            </div>
 
-          <span>Category</span>
+            <div className="flex flex-col">
+              <span className="text-sm leading-6">Category</span>
+              <select
+                className="border-rounded mb-5 ml-2 bg-science-blue-600 text-white outline-none"
+                onChange={formik.handleChange}
+                value={formik.values.category}
+                name="category"
+              >
+                <option value="">Select Category</option>
+                {categories.map((category) => (
+                  <option value={category.id} key={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
 
-          <select
-            className="mb-5 ml-2 bg-gray-200 outline-none border-rounded"
-            onChange={formik.handleChange}
-            value={formik.values.category}
-            name="category"
+          <button
+            type="submit"
+            className="text-slate-100 cursor-pointer rounded-md bg-science-blue-800 px-2	py-1 text-white"
+            useNavigate="/myStore"
           >
-            <option value="">select category</option>
-            {categories.map((category) => (
-              <option value={category.id} key={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-
-
-          <button type="submit" className="cursor-pointer text-slate-100	bg-indigo-500 text-white" useNavigate="/myStore" >
             Publish
           </button>
         </form>
       </div>
     </div>
-
   );
 }
 
-export default withAuth(ProductForm);
+export default ProductForm;

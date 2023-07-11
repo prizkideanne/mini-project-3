@@ -3,8 +3,9 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import InputWithValidation from "../components/InputWithValidation";
-import { useNavigate } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import LoginBG from "../assets/login-bg.jpg";
+import Logo from "../components/Logo";
 
 function Register() {
   const [errorMessage, setErrorMessage] = useState("");
@@ -80,75 +81,109 @@ function Register() {
   };
 
   return (
-    <div className="mt-40 flex h-screen w-full justify-center lg:mt-0 lg:items-center">
-      <div>
-        <h1 className="text-center text-[80px]">Logo</h1>
-        <h1>Register</h1>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            formik.handleSubmit();
-          }}
-          className="flex flex-col rounded-md border border-red-400 p-10"
-        >
-          <InputWithValidation
-            formikConfig={formik.getFieldProps("username")}
-            name="username"
-            placeholder="Username"
-            touched={formik.touched.username}
-            error={formik.errors.username}
-          />
-          <InputWithValidation
-            formikConfig={formik.getFieldProps("email")}
-            name="email"
-            placeholder="Email"
-            touched={formik.touched.email}
-            error={formik.errors.email}
-          />
+    <div className="flex h-screen w-screen justify-center bg-white">
+      <div className="relative flex min-h-full flex-1">
+        <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+          <div className="mx-auto w-full max-w-sm lg:w-96">
+            <div>
+              <Logo />
+              <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                Register
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-gray-500">
+                Have an account?{" "}
+                <Link
+                  to={"/login"}
+                  className="font-semibold text-science-blue-600 hover:text-science-blue-500"
+                >
+                  Login
+                </Link>
+              </p>
+            </div>
 
-          <InputWithValidation
-            name="phoneNumber"
-            placeholder="Phone"
-            type="tel"
-            formikConfig={formik.getFieldProps("phoneNumber")}
-            touched={formik.touched.phoneNumber}
-            error={formik.errors.phoneNumber}
-          />
+            <div className="mt-5">
+              <div>
+                <form
+                  className="lg:grid lg:grid-cols-2 lg:gap-6 gap-3 flex flex-col lg:w-[512px]"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    formik.handleSubmit();
+                  }}
+                >
+                  <InputWithValidation
+                    label={"Username"}
+                    name={"username"}
+                    type="text"
+                    formikConfig={formik.getFieldProps("username")}
+                    touched={formik.touched.username}
+                    error={formik.errors.username}
+                  />
 
-          <InputWithValidation
-            name="storeName"
-            placeholder="Store Name"
-            formikConfig={formik.getFieldProps("storeName")}
-            touched={formik.touched.storeName}
-            error={formik.errors.storeName}
-          />
+                  <InputWithValidation
+                    formikConfig={formik.getFieldProps("email")}
+                    name="email"
+                    label="Email Address"
+                    type={"email"}
+                    touched={formik.touched.email}
+                    error={formik.errors.email}
+                  />
 
-          <InputWithValidation
-            name="password"
-            placeholder="Password"
-            type="password"
-            formikConfig={formik.getFieldProps("password")}
-            touched={formik.touched.password}
-            error={formik.errors.password}
-          />
+                  <InputWithValidation
+                    name="phoneNumber"
+                    placeholder="Phone"
+                    label={"Phone"}
+                    type="tel"
+                    formikConfig={formik.getFieldProps("phoneNumber")}
+                    touched={formik.touched.phoneNumber}
+                    error={formik.errors.phoneNumber}
+                  />
 
-          <InputWithValidation
-            name="confirmPassword"
-            placeholder="Confirm Password"
-            type="password"
-            formikConfig={formik.getFieldProps("confirmPassword")}
-            touched={formik.touched.confirmPassword}
-            error={formik.errors.confirmPassword}
-          />
+                  <InputWithValidation
+                    name="storeName"
+                    label="Store Name"
+                    formikConfig={formik.getFieldProps("storeName")}
+                    touched={formik.touched.storeName}
+                    error={formik.errors.storeName}
+                  />
 
-          <button
-            className="h-10 rounded-md border bg-red-400/80 text-white"
-            type="submit"
-          >
-            Register
-          </button>
-          <p className="text-red-500">{errorMessage}</p>
-        </form>
+                  <InputWithValidation
+                    name="password"
+                    label="Password"
+                    type="password"
+                    formikConfig={formik.getFieldProps("password")}
+                    touched={formik.touched.password}
+                    error={formik.errors.password}
+                  />
+
+                  <InputWithValidation
+                    name="confirmPassword"
+                    label="Confirm Password"
+                    type="password"
+                    formikConfig={formik.getFieldProps("confirmPassword")}
+                    touched={formik.touched.confirmPassword}
+                    error={formik.errors.confirmPassword}
+                  />
+
+                  <div className="col-start-2">
+                    <button
+                      type="submit"
+                      className=" flex w-full justify-center rounded-md bg-gradient-to-r from-science-blue-500 to-science-blue-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-science-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-science-blue-600"
+                    >
+                      Sign in
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="relative hidden w-0 flex-1 lg:block">
+          <img
+            className="fixed right-0 h-full w-1/2 object-cover"
+            src={LoginBG}
+            alt="login-bg"
+          />
+        </div>
       </div>
     </div>
   );
