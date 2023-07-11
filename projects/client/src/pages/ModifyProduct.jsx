@@ -5,7 +5,7 @@ import {
     Textarea,
 } from "flowbite-react";
 import FilterDropdown from "../components/FilterDropdown";
-import SortDropdown from "../components/SortDropdown";
+import SortDropdown from "../comp  onents/SortDropdown";
 import { Formik } from "formik";
 import axios from "axios";
 import withAuth from "../withAuth";
@@ -35,7 +35,7 @@ const ModifyProduct = () => {
     }, []);
 
     useEffect(() => {
-        axios.get("http://localhost:8000/product/getMyProduct/:id")
+        axios.get("http://localhost:8000/product/getProduct/:id")
     })
 
     const navigate = useNavigate();
