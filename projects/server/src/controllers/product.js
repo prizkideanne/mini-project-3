@@ -158,7 +158,7 @@ const editProduct = async (req, res) => {
 
   const userId = req.user.id;
   console.log(id);
-  const { file, name, description, category, price } = req.body;
+  const { name, description, category, price } = req.body;
   try {
     const getProduct = await db.Product.findOne({
       where: {
@@ -171,9 +171,6 @@ const editProduct = async (req, res) => {
         message: "product is not found",
       });
     }
-    if (file) {
-      getProduct.file = file;
-    }
     if (price) {
       getProduct.price = Number(price);
     }
@@ -184,15 +181,10 @@ const editProduct = async (req, res) => {
       getProduct.description = Number(description);
     }
     if (category) {
-      getProduct.category = Number(category);
+      getProduct.categoryId = Number(category);
     }
     if (req.file) {
-      const realimageURL = getProduct.getDataValue("imageUrl");
-      const oldFilename = getFilenameFromDbValue(realimageURL);
-      if (oldFilename) {
-        fs.unlinkSync(getAbsolutePathPublicFile(oldFilename));
-      }
-      getProduct.imageURL = setFromFileNameToDBValue(req.file.filename);
+      getProduct.imageUrl = setFromFileNameToDBValue(req.file.filename);
     }
     await getProduct.save();
     res.send({ message: "success update product", data: getProduct });

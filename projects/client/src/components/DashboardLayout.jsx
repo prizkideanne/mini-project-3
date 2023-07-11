@@ -10,6 +10,7 @@ import {
   ShoppingCartIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { logout } from "../store/userReducer/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Logo from "./Logo";
@@ -78,7 +79,7 @@ function DashboardLayout({ children }) {
     }
   }, [pathname]);
 
-  const logout = () => {
+  const handleLogout = () => {
     dispatch(logout());
     navigate("/");
   };
@@ -254,7 +255,7 @@ function DashboardLayout({ children }) {
           Dashboard
         </div>
         <button
-          onClick={logout}
+          onClick={handleLogout}
           className="text-sm font-semibold capitalize text-white"
         >
           Log out

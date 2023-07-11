@@ -61,70 +61,94 @@ function RouteList() {
           }
         />
 
-        <Route
-          path="/dashboard"
-          element={
-            <DashboardLayout>
-              <MyDashboard />
-            </DashboardLayout>
-          }
-        />
-        <Route
-          path="/dashboard/store"
-          element={
-            <DashboardLayout>
-              <MyStore />
-            </DashboardLayout>
-          }
-        />
-        <Route
-          path="/dashboard/transaction"
-          element={
-            <DashboardLayout>
-              <MyTransaction />
-            </DashboardLayout>
-          }
-        />
-        <Route
-          path="/dashboard/income"
-          element={
-            <DashboardLayout>
-              <GrossIncome />
-            </DashboardLayout>
-          }
-        />
-        <Route
-          path="/dashboard/category"
-          element={
-            <DashboardLayout>
-              <CategoryForm />
-            </DashboardLayout>
-          }
-        />
-        <Route
-          path="/dashboard/transactions"
-          element={
-            <DashboardLayout>
-              <MyTransaction />
-            </DashboardLayout>
-          }
-        />
-        <Route
-          path="/dashboard/product"
-          element={
-            <DashboardLayout>
-              <ProductForm />
-            </DashboardLayout>
-          }
-        />
-        <Route
-          path="/dashboard/store/modify-product/:id"
-          element={
-            <DashboardLayout>
-              <ModifyProduct />
-            </DashboardLayout>
-          }
-        />
+        <Route element={<PrivateWrapper />}>
+          <Route
+            path="/dashboard"
+            element={
+              <DashboardLayout>
+                <MyDashboard />
+              </DashboardLayout>
+            }
+          />
+        </Route>
+
+        <Route element={<PrivateWrapper />}>
+          <Route
+            path="/dashboard/store"
+            element={
+              <DashboardLayout>
+                <MyStore />
+              </DashboardLayout>
+            }
+          />
+        </Route>
+
+        <Route element={<PrivateWrapper />}>
+          <Route
+            path="/dashboard/transaction"
+            element={
+              <DashboardLayout>
+                <MyTransaction />
+              </DashboardLayout>
+            }
+          />
+        </Route>
+
+        <Route element={<PrivateWrapper />}>
+          <Route
+            path="/dashboard/income"
+            element={
+              <DashboardLayout>
+                <GrossIncome />
+              </DashboardLayout>
+            }
+          />
+        </Route>
+
+        <Route element={<PrivateWrapper />}>
+          <Route
+            path="/dashboard/category"
+            element={
+              <DashboardLayout>
+                <CategoryForm />
+              </DashboardLayout>
+            }
+          />
+        </Route>
+
+        <Route element={<PrivateWrapper />}>
+          <Route
+            path="/dashboard/transactions"
+            element={
+              <DashboardLayout>
+                <MyTransaction />
+              </DashboardLayout>
+            }
+          />
+        </Route>
+
+        <Route element={<PrivateWrapper />}>
+          <Route
+            path="/dashboard/product"
+            element={
+              <DashboardLayout>
+                <ProductForm />
+              </DashboardLayout>
+            }
+          />
+        </Route>
+
+        <Route element={<PrivateWrapper />}>
+          <Route
+            path="/dashboard/store/modify-product/:id"
+            element={
+              <DashboardLayout>
+                <ModifyProduct />
+              </DashboardLayout>
+            }
+          />
+        </Route>
+
         {/* Auth */}
         <Route element={<PublicWrapper />}>
           <Route path="/login" element={<Login />} />
