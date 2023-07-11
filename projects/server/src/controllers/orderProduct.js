@@ -1,5 +1,5 @@
 const db = require("../../models");
-const { Op } = require("sequelize");
+const { Op, fn, col } = require("sequelize");
 
 const grossIncome = async (req, res) => {
   const userId = req.user.id;
@@ -101,40 +101,43 @@ const dailyTransaction = async (req, res) => {
   }
 };
 
-// const topSelling = async (req, res) => {
-//   const userId = req.user.id;
+const topSelling = async (req, res) => {
+  const userId = req.user.id;
 
-//   try {
-//     const results = await db.Order_Product.findAll({
-//       include: [
-//         {
-//           model: db.Product,
-//           where: { userId },
-//         },
-//       ],
-//       attributes: [{ exclude: "productId" }],
-//       order: [[db.sequelize.literal("totalQuantity"), "DESC"]],
-//       limit: 5,
-//     });
+  try {
+    const results = await db.Order_Product.findAll({
+      attributes: ["productId", [fn("count", col("productId")), "totalSales"]],
+      include: [
+        {
+          model: db.Product,
+          where: { userId },
+          attributes: { exclude: ["productId"] },
+        },
+      ],
+      order: [[fn("count", col("productId")), "DESC"]],
+      group: ["productId"],
+    });
 
-//     const topSellingProducts = results.map((result) => ({
-//       productId: result.productId,
-//       totalQuantity: result.dataValues.totalQuantity,
-//     }));
+    const topSellingProducts = results.map((result) => {
+      const resPlain = result.get({ plain: true });
+      const data = result.get({ plain: true }).Product;
+      data.totalSales = resPlain.totalSales;
+      return data;
+    });
 
-//     res.status(200).send({
-//       message: "success",
-//       data: {
-//         topSellingProducts: topSellingProducts,
-//       },
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send({ message: "something wrong on server" });
-//   }
-// };
+    res.status(200).send({
+      message: "success",
+      data: {
+        topSellingProducts: topSellingProducts,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "something wrong on server" });
+  }
+};
 module.exports = {
   grossIncome,
   dailyTransaction,
-  // topSelling,
+  topSelling,
 };
