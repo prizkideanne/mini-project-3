@@ -178,7 +178,7 @@ const editProduct = async (req, res) => {
       getProduct.name = name;
     }
     if (description) {
-      getProduct.description = Number(description);
+      getProduct.description = description;
     }
     if (category) {
       getProduct.categoryId = Number(category);

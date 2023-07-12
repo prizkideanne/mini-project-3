@@ -231,7 +231,7 @@ function DashboardLayout({ children }) {
                     {user.storeName}
                   </span>
                   <button
-                    onClick={logout}
+                    onClick={handleLogout}
                     className="rounded-lg border-2 border-white px-2 py-1 text-white"
                   >
                     Log out

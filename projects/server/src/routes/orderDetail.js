@@ -15,6 +15,6 @@ router.post(
 );
 
 router.get("/getAllOrderDetail", getAllOrderDetail);
-router.get("/getOrderDetailByUser/:id", verifyToken, getOrderDetailByUser);
+router.get("/getOrderDetailByUser", verifyToken, getOrderDetailByUser);
 
 module.exports = router;

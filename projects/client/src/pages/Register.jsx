@@ -104,7 +104,7 @@ function Register() {
             <div className="mt-5">
               <div>
                 <form
-                  className="lg:grid lg:grid-cols-2 lg:gap-6 gap-3 flex flex-col lg:w-[512px]"
+                  className="flex flex-col gap-3 lg:grid lg:w-[512px] lg:grid-cols-2 lg:gap-6"
                   onSubmit={(e) => {
                     e.preventDefault();
                     formik.handleSubmit();
