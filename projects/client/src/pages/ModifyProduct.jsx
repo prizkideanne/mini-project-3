@@ -1,9 +1,4 @@
 import React, { useEffect, useState } from "react";
-import {
-    Label,
-    TextInput,
-    Textarea,
-} from "flowbite-react";
 import { Label, TextInput, Textarea } from "flowbite-react";
 import { Formik } from "formik";
 import axios from "axios";
@@ -75,14 +70,14 @@ const ModifyProduct = () => {
             )
 
             .then((result) => {
-                console.log(result.message);
-                alert("Create Product Success, " + data.message);
+                console.log(result.data.message);
+                alert("Modify Product Success, " + result.data.message);
                 // setValue(response.data);
             })
             .catch((err) => console.log(err));
 
         setTimeout(() => {
-            navigate("/");
+            navigate("/dashboard/store");
         }, 2000);
     };
 
@@ -168,10 +163,8 @@ const ModifyProduct = () => {
                                             placeholder="description of product"
                                             name="description"
                                             value={props.values.description}
-                                            onChange={(event) => {
-                                                props.setFieldValue("description", event.target.value);
-                                            }}
-                                        />`  `
+                                            onChange={props.handleChange}
+                                        />
                                         <select
                                             className="item-center border-rounded mb-5 ml-8 flex justify-center bg-science-blue-200 outline-none"
                                             onChange={props.handleChange}

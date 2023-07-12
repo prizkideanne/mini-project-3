@@ -100,15 +100,13 @@ const getAllOrderDetail = async (req, res) => {
 const getOrderDetailByUser = async (req, res) => {
   // const { id } = req.params;
   const userId = req.user.id;
+
   try {
     const results = await db.Order_Detail.findAll({
-      where: {
-        userId: userId,
-      },
+      where: { userId: userId },
       include: [
         {
           model: db.User,
-          // where: { id }
           attributes: {
             exclude: ["password"],
           },

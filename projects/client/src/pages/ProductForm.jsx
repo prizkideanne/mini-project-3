@@ -3,11 +3,13 @@ import axios from "axios";
 import { useState } from "react";
 import InputWithValidation from "../components/InputWithValidation";
 import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
 
 function ProductForm() {
   const [errorMessage, setErrorMessage] = useState("");
   const [file, setFile] = useState(null);
   const [categories, setCategories] = useState([]);
+  const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
 
@@ -59,6 +61,7 @@ function ProductForm() {
         console.log(data);
         alert("Create Product Success, " + data.message);
         resetForm();
+        navigate("/dashboard/store");
       })
       .catch(({ response }) => {
         setErrorMessage(response.data.message);
@@ -154,7 +157,6 @@ function ProductForm() {
           <button
             type="submit"
             className="text-slate-100 cursor-pointer rounded-md bg-science-blue-800 px-2	py-1 text-white"
-            useNavigate="/myStore"
           >
             Publish
           </button>
