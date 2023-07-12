@@ -171,7 +171,7 @@ const ModifyProduct = () => {
                                             onChange={(event) => {
                                                 props.setFieldValue("description", event.target.value);
                                             }}
-                                        />
+                                        />`  `
                                         <select
                                             className="item-center border-rounded mb-5 ml-8 flex justify-center bg-science-blue-200 outline-none"
                                             onChange={props.handleChange}
