@@ -17,6 +17,7 @@ function MyStore() {
   const [disablePrevious, setDisablePrevious] = useState(true);
 
   const { user } = useSelector((state) => state.user);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     getProducts();
@@ -40,7 +41,12 @@ function MyStore() {
   const getProducts = () => {
     axios
       .get(
-        `${process.env.REACT_APP_API_BASE_URL}/product/getAllProduct?perPage=6`
+        `${process.env.REACT_APP_API_BASE_URL}/product/getMyProduct?perPage=6`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       )
       .then(({ data }) => {
         const items = data.data.map(({ id, imageUrl, price, name }) => {
@@ -59,7 +65,11 @@ function MyStore() {
 
   const getCategories = () => {
     axios
-      .get(`${process.env.REACT_APP_API_BASE_URL}/category/getAllCategories`)
+      .get(`${process.env.REACT_APP_API_BASE_URL}/category/getAllCategories`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then(({ data }) => {
         const items = data.data.map(({ id, name }) => ({
           value: id,
@@ -84,7 +94,12 @@ function MyStore() {
       .get(
         `${
           process.env.REACT_APP_API_BASE_URL
-        }/product/getAllProduct?perPage=6&page=${currentPage + 1}`
+        }/product/getMyProduct?perPage=6&page=${currentPage + 1}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       )
       .then(({ data }) => {
         const items = data.data.map(({ id, imageUrl, price, name }) => {
@@ -106,7 +121,12 @@ function MyStore() {
       .get(
         `${
           process.env.REACT_APP_API_BASE_URL
-        }/product/getMyProduct?perPage=6&page=${currentPage - 1}`
+        }/product/getMyProduct?perPage=6&page=${currentPage - 1}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       )
       .then(({ data }) => {
         const items = data.data.map(({ id, imageUrl, price, name }) => {

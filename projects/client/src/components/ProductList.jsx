@@ -22,7 +22,7 @@ function ProductList({
     <div className="flex w-full">
       {products.length === 0 ? (
         <div className="flex h-full w-full items-center justify-center">
-          <p>Loading...</p>
+          <p>You don't have any product on listing...</p>
         </div>
       ) : (
         <div className="my-5 flex flex-col items-center">
